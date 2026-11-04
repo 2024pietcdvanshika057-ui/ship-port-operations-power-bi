@@ -1,0 +1,185 @@
+table WEF_TTDI_EOSQ487
+	lineageTag: c15e2a7e-911f-478d-b701-3ecd38f74ba0
+
+	measure 'Avg Port Efficiency' =
+			
+			AVERAGE('WEF_TTDI_EOSQ487'[Port Efficiency Score])
+		lineageTag: e060830f-4669-422f-9c56-a2b7072e0ead
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Highest Score' =
+			
+			MAX('WEF_TTDI_EOSQ487'[Port Efficiency Score])
+		lineageTag: ad1c9d9c-720c-4c29-ade5-f6d0ca9c1d3a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Lowest Score' =
+			
+			MIN('WEF_TTDI_EOSQ487'[Port Efficiency Score])
+		lineageTag: 3f70c1d2-824b-42bc-bdf5-2c1684501f7e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Countries =
+			
+			DISTINCTCOUNT('WEF_TTDI_EOSQ487'[Country])
+		formatString: 0
+		lineageTag: 5d0b85d0-9447-44c7-8356-0f2f08061a9e
+
+	measure 'Country Rank' =
+			
+			RANKX(
+			ALL('WEF_TTDI_EOSQ487'[Country]),
+			CALCULATE(AVERAGE('WEF_TTDI_EOSQ487'[Port Efficiency Score])),
+			,
+			DESC
+			)
+		formatString: 0
+		lineageTag: f4c47261-403d-4c6c-892e-641a50c7a37b
+
+	measure 'Top Score' =
+			
+			MAXX(
+			ALL('WEF_TTDI_EOSQ487'[Country]),
+			CALCULATE(AVERAGE('WEF_TTDI_EOSQ487'[Port Efficiency Score]))
+			)
+		lineageTag: 09fdce83-0a6f-4490-bc3a-fa801dddf555
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bottom Score' =
+			
+			MINX(
+			ALL('WEF_TTDI_EOSQ487'[Country]),
+			CALCULATE(AVERAGE('WEF_TTDI_EOSQ487'[Port Efficiency Score]))
+			)
+		lineageTag: 71f77f76-dd2d-46aa-874c-419699251ef3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Std Deviation' =
+			
+			STDEV.P('WEF_TTDI_EOSQ487'[Port Efficiency Score])
+		lineageTag: 2e97c35f-af2f-4fd5-b6d1-299b8b5077da
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Median Score' =
+			
+			MEDIAN('WEF_TTDI_EOSQ487'[Port Efficiency Score])
+		lineageTag: 485ebc7d-33fb-4405-9c5f-28c98d43df7a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Difference from Average' =
+			
+			AVERAGE('WEF_TTDI_EOSQ487'[Port Efficiency Score]) -
+			CALCULATE(
+			    AVERAGE('WEF_TTDI_EOSQ487'[Port Efficiency Score]),
+			    ALL('WEF_TTDI_EOSQ487'[Country])
+			)
+		lineageTag: 578a6465-b565-4ac2-b2c2-37d4a45b6103
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Country Code'
+		dataType: string
+		lineageTag: d4f12b65-2681-4d94-bd67-d710243d02c5
+		summarizeBy: none
+		sourceColumn: Country Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 75014109-2d10-4a8e-bcce-2f23e40a5372
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Region Code'
+		dataType: string
+		lineageTag: 678a2767-083f-48c9-a3ce-3ff82cb7fb8e
+		summarizeBy: none
+		sourceColumn: Region Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 2ca1ddba-339c-4002-8e22-bb8793918ca9
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: cf025400-9ead-4f39-b4a5-98917445d0a2
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Port Efficiency Score'
+		dataType: double
+		lineageTag: 0f4c836e-bee9-47c3-91f6-88ff109eb681
+		summarizeBy: sum
+		sourceColumn: Port Efficiency Score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Status Code'
+		dataType: string
+		lineageTag: 06be9519-3694-4d8c-9df0-76cdb8af6a37
+		summarizeBy: none
+		sourceColumn: Status Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Status'
+		dataType: string
+		lineageTag: dc43ff8e-a541-42d8-9618-3211b2f2d850
+		summarizeBy: none
+		sourceColumn: Data Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Performance Level' =
+			
+			SWITCH(
+			TRUE(),
+			'WEF_TTDI_EOSQ487'[Port Efficiency Score] >= 5.5,"Excellent",
+			'WEF_TTDI_EOSQ487'[Port Efficiency Score] >= 4.5,"Good",
+			'WEF_TTDI_EOSQ487'[Port Efficiency Score] >= 3.5,"Average",
+			"Poor"
+			)
+		lineageTag: 35592f90-e9a0-4696-b774-cb0642cd9b33
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition WEF_TTDI_EOSQ487 = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\HP\Downloads\WEF_TTDI_EOSQ487.csv"),[Delimiter=",", Columns=38, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"STRUCTURE", type text}, {"STRUCTURE_ID", type text}, {"ACTION", type text}, {"FREQ", type text}, {"FREQ_LABEL", type text}, {"REF_AREA", type text}, {"REF_AREA_LABEL", type text}, {"INDICATOR", type text}, {"INDICATOR_LABEL", type text}, {"SEX", type text}, {"SEX_LABEL", type text}, {"AGE", type text}, {"AGE_LABEL", type text}, {"URBANISATION", type text}, {"URBANISATION_LABEL", type text}, {"UNIT_MEASURE", type text}, {"UNIT_MEASURE_LABEL", type text}, {"COMP_BREAKDOWN_1", type text}, {"COMP_BREAKDOWN_1_LABEL", type text}, {"COMP_BREAKDOWN_2", type text}, {"COMP_BREAKDOWN_2_LABEL", type text}, {"COMP_BREAKDOWN_3", type text}, {"COMP_BREAKDOWN_3_LABEL", type text}, {"TIME_PERIOD", Int64.Type}, {"OBS_VALUE", type number}, {"DATABASE_ID", type text}, {"DATABASE_ID_LABEL", type text}, {"UNIT_MULT", Int64.Type}, {"UNIT_MULT_LABEL", type text}, {"UNIT_TYPE", type text}, {"UNIT_TYPE_LABEL", type text}, {"TIME_FORMAT", Int64.Type}, {"TIME_FORMAT_LABEL", type text}, {"COMMENT_OBS", type text}, {"OBS_STATUS", type text}, {"OBS_STATUS_LABEL", type text}, {"OBS_CONF", type text}, {"OBS_CONF_LABEL", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"STRUCTURE", "STRUCTURE_ID", "ACTION", "FREQ", "FREQ_LABEL", "INDICATOR", "INDICATOR_LABEL", "SEX", "SEX_LABEL", "AGE", "AGE_LABEL", "URBANISATION", "URBANISATION_LABEL", "UNIT_MEASURE", "UNIT_MEASURE_LABEL", "COMP_BREAKDOWN_2", "COMP_BREAKDOWN_2_LABEL", "COMP_BREAKDOWN_3", "COMP_BREAKDOWN_3_LABEL", "DATABASE_ID", "DATABASE_ID_LABEL", "UNIT_MULT", "UNIT_MULT_LABEL", "UNIT_TYPE", "UNIT_TYPE_LABEL", "TIME_FORMAT", "TIME_FORMAT_LABEL", "COMMENT_OBS", "OBS_CONF", "OBS_CONF_LABEL"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"REF_AREA", "Country Code"}, {"REF_AREA_LABEL", "Country"}, {"COMP_BREAKDOWN_1", "Region Code"}, {"COMP_BREAKDOWN_1_LABEL", "Region"}, {"TIME_PERIOD", "Year"}, {"OBS_VALUE", "Port Efficiency Score"}, {"OBS_STATUS", "Status Code"}, {"OBS_STATUS_LABEL", "Data Status"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"Port Efficiency Score", type number}}),
+				    #"Rounded Off" = Table.TransformColumns(#"Changed Type1",{{"Port Efficiency Score", each Number.Round(_, 2), type number}})
+				in
+				    #"Rounded Off"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

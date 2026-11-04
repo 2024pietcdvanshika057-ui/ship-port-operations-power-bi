@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "ship port data"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5ac4b739-0f6c-41e6-866a-532aa4e93c95"
+  }
+}
